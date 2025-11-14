@@ -1,0 +1,59 @@
+.card-candidato {
+  width: 240px;
+  padding: 28px 24px 24px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(20, 20, 40, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.card-candidato__foto {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid #f0f0f0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7fb;
+}
+
+.card-candidato__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-candidato__iniciais {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #6a5af9;
+}
+
+.card-candidato__nome {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1f1a3d;
+}
+
+.card-candidato__area .chip {
+  pointer-events: none;
+}
+
+.card-candidato__area {
+  margin-bottom: 4px;
+}
+
+.card-candidato .botao {
+  width: 100%;
+  justify-content: center;
+  margin-top: 4px;
+}
