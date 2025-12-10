@@ -42,6 +42,12 @@ export function Login() {
     }
   };
 
+  const requiredMessage = "Campo de preenchimento obrigatório";
+  const inputClass =
+    "w-full rounded-lg border border-[#d8dbe8] bg-[#f9fafb] px-4 py-2.5 text-sm text-[#1f1a3d] " +
+    "placeholder:text-[#9ca3af] shadow-[0_1px_2px_rgba(0,0,0,0.03)] " +
+    "outline-none focus:ring-2 focus:ring-[#6bd4ff] focus:border-[#5a4df4] transition";
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f5f5f7] px-4">
       <div className="w-full max-w-md bg-white rounded-2xl p-8 shadow-[0_12px_30px_rgba(20,20,40,0.07)] border border-[rgba(118,104,255,0.08)]">
@@ -62,11 +68,11 @@ export function Login() {
         </div>
 
         {/* TÍTULO */}
-        <h2 className="text-2xl font-semibold text-[#1f1a3d] mb-2 text-center">
-          Acesse sua Conta
+        <h2 className="text-xl font-semibold text-[#1f1a3d] mb-2 text-center">
+          Acesse sua Conta de Administrador
         </h2>
         <p className="text-sm text-[#6c6a80] text-center mb-6">
-          Entre para continuar explorando talentos e oportunidades.
+          Entre para continuar conectando talentos e oportunidades.
         </p>
 
         {/* FORM */}
@@ -75,12 +81,14 @@ export function Login() {
             <label className="text-sm font-medium text-[#1f1a3d]">E-mail</label>
             <input
               type="email"
-              {...register("email")}
-              className="border rounded-xl px-4 py-2.5 bg-[#fbfbff] text-[#1f1a3d] border-[#d2ceff] outline-none focus:border-[#6a5af9] transition-all"
+              {...register("email", { required: requiredMessage })}
+              className={inputClass}
+              placeholder="seu@email.com"
+              required
             />
             {errors.email && (
               <span className="text-red-500 text-xs">
-                {errors.email.message}
+                {errors.email.message || requiredMessage}
               </span>
             )}
           </div>
@@ -89,12 +97,14 @@ export function Login() {
             <label className="text-sm font-medium text-[#1f1a3d]">Senha</label>
             <input
               type="password"
-              {...register("senha")}
-              className="border rounded-xl px-4 py-2.5 bg-[#fbfbff] text-[#1f1a3d] border-[#d2ceff] outline-none focus:border-[#6a5af9] transition-all"
+              {...register("senha", { required: requiredMessage })}
+              className={inputClass}
+              placeholder="Digite sua senha"
+              required
             />
             {errors.senha && (
               <span className="text-red-500 text-xs">
-                {errors.senha.message}
+                {errors.senha.message || requiredMessage}
               </span>
             )}
           </div>
@@ -109,15 +119,27 @@ export function Login() {
         </form>
 
         {/* RODAPÉ */}
-        <p className="text-center text-sm text-[#6c6a80] mt-6">
-          Ainda não possui uma conta?{" "}
-          <a
-            href="register"
-            className="text-[#5a4df4] font-medium hover:underline"
-          >
-            Cadastre-se
-          </a>
-        </p>
+        <div className="text-left text-sm text-[#6c6a80] mt-6 space-y-1">
+          <p>
+            Ainda não possui uma conta?{" "}
+            <a
+              href="register"
+              className="text-[#5a4df4] font-medium hover:underline"
+            >
+              Cadastre-se
+            </a>
+          </p>
+          <p>
+            Acessar como{" "}
+            <a
+              href="/"
+              className="text-[#5a4df4] font-medium hover:underline"
+            >
+              visitante
+            </a>
+          </p>
+
+        </div>
       </div>
     </div>
   );

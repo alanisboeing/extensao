@@ -35,6 +35,12 @@ export function Register() {
     }
   };
 
+  const requiredMessage = "Campo de preenchimento obrigatório";
+  const inputClass =
+    "w-full rounded-lg border border-[#d8dbe8] bg-[#f9fafb] px-4 py-2.5 text-sm text-[#1f1a3d] " +
+    "placeholder:text-[#9ca3af] shadow-[0_1px_2px_rgba(0,0,0,0.03)] " +
+    "outline-none focus:ring-2 focus:ring-[#6bd4ff] focus:border-[#5a4df4] transition";
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f5f5f7] px-4">
       <div className="w-full max-w-md bg-white rounded-2xl p-8 shadow-[0_12px_30px_rgba(20,20,40,0.07)] border border-[rgba(118,104,255,0.08)]">
@@ -71,11 +77,15 @@ export function Register() {
             </label>
             <input
               type="text"
-              {...register("nome")}
-              className="border rounded-xl px-4 py-2.5 bg-[#fbfbff] text-[#1f1a3d] border-[#d2ceff] outline-none focus:border-[#6a5af9] transition-all"
+              {...register("nome", { required: requiredMessage })}
+              className={inputClass}
+              placeholder="Seu nome completo"
+              required
             />
             {errors.nome && (
-              <p className="text-red-500 text-sm">{errors.nome.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.nome.message || requiredMessage}
+              </p>
             )}
           </div>
 
@@ -84,11 +94,15 @@ export function Register() {
             <label className="text-sm font-medium text-[#1f1a3d]">E-mail</label>
             <input
               type="email"
-              {...register("email")}
-              className="border rounded-xl px-4 py-2.5 bg-[#fbfbff] text-[#1f1a3d] border-[#d2ceff] outline-none focus:border-[#6a5af9] transition-all"
+              {...register("email", { required: requiredMessage })}
+              className={inputClass}
+              placeholder="seu@email.com"
+              required
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.email.message || requiredMessage}
+              </p>
             )}
           </div>
 
@@ -97,11 +111,15 @@ export function Register() {
             <label className="text-sm font-medium text-[#1f1a3d]">Senha</label>
             <input
               type="password"
-              {...register("senha")}
-              className="border rounded-xl px-4 py-2.5 bg-[#fbfbff] text-[#1f1a3d] border-[#d2ceff] outline-none focus:border-[#6a5af9] transition-all"
+              {...register("senha", { required: requiredMessage })}
+              className={inputClass}
+              placeholder="Crie uma senha"
+              required
             />
             {errors.senha && (
-              <p className="text-red-500 text-sm">{errors.senha.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.senha.message || requiredMessage}
+              </p>
             )}
           </div>
 
@@ -112,12 +130,14 @@ export function Register() {
             </label>
             <input
               type="password"
-              {...register("confirmarSenha")}
-              className="border rounded-xl px-4 py-2.5 bg-[#fbfbff] text-[#1f1a3d] border-[#d2ceff] outline-none focus:border-[#6a5af9] transition-all"
+              {...register("confirmarSenha", { required: requiredMessage })}
+              className={inputClass}
+              placeholder="Repita a senha"
+              required
             />
             {errors.confirmarSenha && (
               <p className="text-red-500 text-sm">
-                {errors.confirmarSenha.message}
+                {errors.confirmarSenha.message || requiredMessage}
               </p>
             )}
           </div>

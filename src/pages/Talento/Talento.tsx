@@ -44,7 +44,8 @@ export function Talento() {
 
   const renderConteudo = () => {
     if (loading) return <p className="text-[#6c6a80]">Carregando...</p>;
-    if (!talento) return <p className="text-[#6c6a80]">Talento não encontrado.</p>;
+    if (!talento)
+      return <p className="text-[#6c6a80]">Talento não encontrado.</p>;
 
     return (
       <div className="flex flex-col gap-6">
