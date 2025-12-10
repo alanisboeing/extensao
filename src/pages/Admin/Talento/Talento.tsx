@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   listarTalentos,
   type TalentoResponse,
@@ -39,20 +40,31 @@ export function TalentoAdmin() {
   }
 
   async function handleSubmit(data: TalentoFormData) {
-    if (editing) {
-      await talentoService.atualizar(editing.id, data);
-    } else {
-      await talentoService.criar(data);
-    }
+    try {
+      if (editing) {
+        await talentoService.atualizar(editing.id, data);
+        toast.success("Talento atualizado com sucesso!");
+      } else {
+        await talentoService.criar(data);
+        toast.success("Talento criado com sucesso!");
+      }
 
-    setModalOpen(false);
-    carregar();
+      setModalOpen(false);
+      carregar();
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Erro ao salvar talento");
+    }
   }
 
   async function handleDelete(id: number) {
     if (confirm("Deseja excluir este talento?")) {
-      await talentoService.deletar(id);
-      carregar();
+      try {
+        await talentoService.deletar(id);
+        toast.success("Talento excluído com sucesso!");
+        carregar();
+      } catch (error: any) {
+        toast.error(error?.response?.data?.message || "Erro ao excluir talento");
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   loginSchema,
   type LoginSchema,
@@ -30,13 +31,10 @@ export function Login() {
       localStorage.setItem("userEmail", response.email);
       localStorage.setItem("userId", response.id);
 
-      alert("Login realizado com sucesso!");
+      toast.success("Login realizado com sucesso!");
       navigate("/");
-
-      // redirecionar depois, se quiser:
-      // window.location.href = "/dashboard";
     } catch (err: any) {
-      alert(err?.response?.data?.message || "Erro ao realizar login");
+      toast.error(err?.response?.data?.message || "Erro ao realizar login");
     } finally {
       setLoading(false);
     }

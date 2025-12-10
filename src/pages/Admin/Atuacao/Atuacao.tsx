@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   listarAtuacoes,
   type AtuacaoResponse,
@@ -40,20 +41,31 @@ export function Atuacao() {
   }
 
   async function handleSubmit(data: AtuacoesSchema) {
-    if (editing) {
-      await atualizarAtuacao(editing.id, data);
-    } else {
-      await criarAtuacao(data);
-    }
+    try {
+      if (editing) {
+        await atualizarAtuacao(editing.id, data);
+        toast.success("Atuação atualizada com sucesso!");
+      } else {
+        await criarAtuacao(data);
+        toast.success("Atuação criada com sucesso!");
+      }
 
-    setModalOpen(false);
-    carregar();
+      setModalOpen(false);
+      carregar();
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Erro ao salvar atuação");
+    }
   }
 
   async function handleDelete(id: number) {
     if (confirm("Deseja excluir esta atuação?")) {
-      await excluirAtuacao(id);
-      carregar();
+      try {
+        await excluirAtuacao(id);
+        toast.success("Atuação excluída com sucesso!");
+        carregar();
+      } catch (error: any) {
+        toast.error(error?.response?.data?.message || "Erro ao excluir atuação");
+      }
     }
   }
 

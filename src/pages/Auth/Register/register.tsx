@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   registerSchema,
   type RegisterFormData,
@@ -28,10 +29,10 @@ export function Register() {
         nome: data.nome,
       });
 
-      alert("Usuário cadastrado com sucesso!");
+      toast.success("Usuário cadastrado com sucesso!");
       navigate("/login");
     } catch (error: any) {
-      alert(error.message || "Erro ao cadastrar usuário");
+      toast.error(error?.response?.data?.message || error.message || "Erro ao cadastrar usuário");
     }
   };
 
