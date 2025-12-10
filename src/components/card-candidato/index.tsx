@@ -1,23 +1,21 @@
-import React, { type JSX } from "react";
-import { Botao } from "../botao/index.js";
-import { Chip } from "../chip/index.js";
+import { Botao } from "../botao";
+import { Chip } from "../chip";
 
 interface CardCandidatoProps {
+  id: number;
   fotoPerfil?: string | null;
   nomeTalento?: string | null;
   areaAtuacao?: string | null;
-  linkPerfil?: string | null;
 }
 
 export function CardCandidato({
+  id,
   fotoPerfil = null,
   nomeTalento = "Talento",
   areaAtuacao = "—",
-  linkPerfil = null,
-}: CardCandidatoProps): JSX.Element {
-  const handleVerPerfil = (): void => {
-    if (!linkPerfil) return;
-    window.open(linkPerfil, "_blank", "noopener,noreferrer");
+}: CardCandidatoProps) {
+  const navigatePerfil = () => {
+    window.location.href = `/talento?id=${id}`;
   };
 
   const capturarIniciaisNome = (): string =>
@@ -74,7 +72,7 @@ export function CardCandidato({
       </div>
 
       <div className="w-full mt-[4px]">
-        <Botao label="Ver Perfil" onClick={handleVerPerfil} />
+        <Botao label="Ver Perfil" onClick={navigatePerfil} />
       </div>
     </article>
   );

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Header() {
   return (
     <header
@@ -12,7 +14,10 @@ export function Header() {
         mb-[28px]
       "
     >
-      <div className="flex items-center gap-3">
+      <Link
+        to="/"
+        className="flex items-center gap-3 cursor-pointer select-none"
+      >
         <div
           className="
             w-10 h-10
@@ -33,7 +38,7 @@ export function Header() {
             Match de especialistas
           </span>
         </div>
-      </div>
+      </Link>
 
       <button
         className="
