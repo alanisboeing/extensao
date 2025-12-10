@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -6,6 +6,10 @@ import {
   type TalentoFormData,
 } from "../../../../models/request-schemas/talentos";
 import type { TalentoResponse } from "../../../../services/talentos/listar";
+import {
+  listarAtuacoes,
+  type AtuacaoResponse,
+} from "../../../../services/atuacoes/listar";
 
 interface Props {
   open: boolean;
@@ -20,6 +24,8 @@ export function TalentoFormModal({
   onSubmit,
   initialData,
 }: Props) {
+  const [atuacoes, setAtuacoes] = useState<AtuacaoResponse[]>([]);
+
   const {
     register,
     handleSubmit,
@@ -30,7 +36,17 @@ export function TalentoFormModal({
   });
 
   useEffect(() => {
-    if (initialData) reset(initialData);
+    async function carregarAtuacoes() {
+      const data = await listarAtuacoes();
+      setAtuacoes(data);
+    }
+
+    carregarAtuacoes();
+  }, []);
+
+  useEffect(() => {
+    if (initialData)
+      reset({ ...initialData, atuacaoId: initialData.atuacoes.id });
     else
       reset({
         nome: "",
@@ -42,18 +58,18 @@ export function TalentoFormModal({
         competencia: "",
         biografia: "",
         fotoUrl: "",
-        atuacaoId: "",
+        atuacaoId: undefined,
       });
   }, [initialData, reset]);
 
   if (!open) return null;
 
-  /** ⬇ FECHAR AO CLICAR FORA DA MODAL */
+  /** ƒªÎ FECHAR AO CLICAR FORA DA MODAL */
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
 
-  /** ⬇ ESTILO PADRÃO PARA INPUTS */
+  /** ƒªÎ ESTILO PADRÇŸO PARA INPUTS */
   const inputClass =
     "border border-gray-300 rounded-lg p-2 text-sm bg-white " +
     "focus:outline-none focus:ring-2 focus:ring-[#6bd4ff] focus:border-[#5a4df4] transition";
@@ -125,9 +141,9 @@ export function TalentoFormModal({
                 />
               </div>
 
-              {/* Competência */}
+              {/* CompetÇ¦ncia */}
               <div className="flex flex-col gap-1 col-span-2">
-                <label className="font-medium">Competência</label>
+                <label className="font-medium">CompetÇ¦ncia</label>
                 <input {...register("competencia")} className={inputClass} />
               </div>
 
@@ -150,14 +166,20 @@ export function TalentoFormModal({
                 />
               </div>
 
-              {/* ID Atuação */}
+              {/* AtuaÇõÇœo */}
               <div className="flex flex-col gap-1 col-span-2">
-                <label className="font-medium">ID da Atuação</label>
-                <input
-                  type="string"
+                <label className="font-medium">AtuaÇõÇœo</label>
+                <select
                   {...register("atuacaoId", { valueAsNumber: true })}
                   className={inputClass}
-                />
+                >
+                  <option value="">Selecione uma atuaÇõÇœo</option>
+                  {atuacoes.map((atuacao) => (
+                    <option key={atuacao.id} value={atuacao.id}>
+                      {atuacao.nome}
+                    </option>
+                  ))}
+                </select>
                 {errors.atuacaoId && (
                   <p className="text-red-500 text-xs">
                     {errors.atuacaoId.message}
@@ -166,7 +188,7 @@ export function TalentoFormModal({
               </div>
             </div>
 
-            {/* Botões */}
+            {/* BotÇæes */}
             <div className="flex justify-end gap-3 pt-2">
               <button
                 type="button"

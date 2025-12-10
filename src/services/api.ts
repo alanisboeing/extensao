@@ -20,7 +20,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Se o backend retornar 401 → token inválido ou expirado
+// Guard para tokens inválidos/expirados
 api.interceptors.response.use(
   (response) => response,
   (error) => {

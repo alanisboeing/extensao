@@ -7,6 +7,7 @@ import {
   listarTalentos,
   type TalentoResponse,
 } from "../../services/talentos/listar";
+import { Footer } from "../../components/footer";
 
 export function Talento() {
   const [searchParams] = useSearchParams();
@@ -36,24 +37,19 @@ export function Talento() {
 
     setTooltip({ type, text: "Copiado!" });
 
-    // remove automaticamente depois de 1.5s
     setTimeout(() => {
       setTooltip({ type: null, text: "" });
     }, 1500);
   };
 
-  if (loading) return <p className="p-8">Carregando...</p>;
-  if (!talento) return <p className="p-8">Talento não encontrado.</p>;
+  const renderConteudo = () => {
+    if (loading) return <p className="text-[#6c6a80]">Carregando...</p>;
+    if (!talento) return <p className="text-[#6c6a80]">Talento não encontrado.</p>;
 
-  return (
-    <main className="bg-[#f5f5f7] min-h-screen font-inter">
-      <Header />
-
-      <div className="p-8 flex flex-col max-w-4xl mx-auto">
-        {/* CARD SUPERIOR */}
+    return (
+      <div className="flex flex-col gap-6">
         <div className="relative bg-gradient-to-r from-[#6d63f6] via-[#8b7ffc] to-[#7ed8ff] p-8 rounded-t-3xl shadow-lg">
           <div className="flex items-center gap-6">
-            {/* FOTO */}
             <div className="w-[130px] h-[130px] rounded-full overflow-hidden border-[2.5px] border-white shadow-xl">
               {talento.fotoUrl ? (
                 <img
@@ -71,17 +67,14 @@ export function Talento() {
               )}
             </div>
 
-            {/* INFO */}
             <div className="text-white flex-1">
               <h1 className="text-3xl font-semibold">{talento.nome}</h1>
 
               <div className="mt-2 inline-block bg-white text-[#6a5af9] px-3 py-1 rounded-full text-sm font-semibold">
-                {talento.atuacoes?.nome ?? "—"}
+                {talento.atuacoes?.nome ?? "--"}
               </div>
 
-              {/* ÍCONES */}
               <div className="relative flex gap-5 mt-5">
-                {/* EMAIL */}
                 <div className="relative flex items-center">
                   <button
                     onMouseEnter={() =>
@@ -93,7 +86,6 @@ export function Talento() {
                   >
                     <Mail size={22} />
 
-                    {/* TOOLTIP */}
                     {tooltip.type === "email" && (
                       <span className="absolute top-[130%] left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                         {tooltip.text}
@@ -102,7 +94,6 @@ export function Talento() {
                   </button>
                 </div>
 
-                {/* TELEFONE */}
                 {talento.telefone && (
                   <div className="relative flex items-center">
                     <button
@@ -124,7 +115,6 @@ export function Talento() {
                   </div>
                 )}
 
-                {/* LINKEDIN */}
                 {talento.linkedin && (
                   <a
                     href={talento.linkedin}
@@ -141,9 +131,7 @@ export function Talento() {
           </div>
         </div>
 
-        {/* CARD INFERIOR */}
         <div className="bg-white p-8 rounded-b-3xl shadow-lg space-y-6">
-          {/* LOCALIZAÇÃO */}
           {(talento.cidade || talento.uf) && (
             <section>
               <h2 className="font-semibold text-lg mb-1">Localização</h2>
@@ -153,7 +141,6 @@ export function Talento() {
             </section>
           )}
 
-          {/* SOBRE */}
           {talento.biografia && (
             <section>
               <h2 className="font-semibold text-lg mb-1">Sobre o Talento</h2>
@@ -161,7 +148,6 @@ export function Talento() {
             </section>
           )}
 
-          {/* COMPETÊNCIAS */}
           {talento.competencia && (
             <section>
               <h2 className="font-semibold text-lg mb-1">
@@ -176,6 +162,18 @@ export function Talento() {
           )}
         </div>
       </div>
+    );
+  };
+
+  return (
+    <main className="bg-[#f5f5f7] min-h-screen font-inter">
+      <Header />
+
+      <div className="px-6 pb-10 pt-28 flex justify-center">
+        <div className="w-full max-w-[960px] mx-auto">{renderConteudo()}</div>
+      </div>
+
+      <Footer />
     </main>
   );
 }

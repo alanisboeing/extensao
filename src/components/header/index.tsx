@@ -1,17 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
+import { clearToken } from "../../services/auth/token";
 
-export function Header() {
+interface HeaderProps {
+  showAdminLogin?: boolean;
+}
+
+export function Header({ showAdminLogin = true }: HeaderProps) {
+  const navigate = useNavigate();
+  const hasToken =
+    typeof window !== "undefined" ? !!localStorage.getItem("token") : false;
+
+  const linkBase = "px-2 py-1 text-sm font-medium transition";
+
+  const handleLogout = () => {
+    clearToken();
+    navigate("/login");
+  };
+
   return (
     <header
       className="
+        fixed top-0 left-0 right-0 z-50
         w-full
         p-[14px_24px]
         flex items-center justify-between gap-4
-        bg-white
-        rounded-[18px]
+        bg-white/95 backdrop-blur
         shadow-[0_12px_30px_rgba(20,20,40,0.07)]
-        border border-[rgba(118,104,255,0.08)]
-        mb-[28px]
+        border-b border-[rgba(118,104,255,0.12)]
       "
     >
       <Link
@@ -40,21 +56,79 @@ export function Header() {
         </div>
       </Link>
 
-      <button
-        className="
-          px-4 py-[9px]
-          border border-[#c9c7ff]
-          rounded-[10px]
-          font-medium
-          text-[#5146d6]
-          bg-[#f7f5ff]
-          cursor-pointer
-          transition-all duration-200
-          hover:bg-[#edeaff] hover:border-[#8d89ff]
-        "
-      >
-        Administrador
-      </button>
+      <div className="flex items-center gap-3">
+        {hasToken && (
+          <>
+            <NavLink
+              to="/admin/talento"
+              className={({ isActive }) =>
+                `${linkBase} ${
+                  isActive
+                    ? "text-[#5a4df4] font-semibold"
+                    : "text-[#5146d6] hover:text-[#5a4df4]"
+                }`
+              }
+            >
+              Talentos
+            </NavLink>
+
+            <NavLink
+              to="/admin/atuacao"
+              className={({ isActive }) =>
+                `${linkBase} ${
+                  isActive
+                    ? "text-[#5a4df4] font-semibold"
+                    : "text-[#5146d6] hover:text-[#5a4df4]"
+                }`
+              }
+            >
+              Atuacoes
+            </NavLink>
+          </>
+        )}
+
+        {hasToken ? (
+          <button
+            onClick={handleLogout}
+            className="
+              w-10 h-10
+              rounded-full
+              flex items-center justify-center
+              text-[#5a4df4]
+              border border-[#d2ceff]
+              bg-white
+              cursor-pointer
+              transition-all duration-200
+              hover:border-[#8d89ff]
+              hover:text-[#4a3fdc]
+              active:translate-y-[1px]
+            "
+            title="Sair"
+            aria-label="Sair"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        ) : (
+          showAdminLogin && (
+            <Link
+              to="/login"
+              className="
+                px-4 py-[9px]
+                border border-[#c9c7ff]
+                rounded-[10px]
+                font-medium
+                text-[#5146d6]
+                bg-[#f7f5ff]
+                cursor-pointer
+                transition-all duration-200
+                hover:bg-[#edeaff] hover:border-[#8d89ff]
+              "
+            >
+              Entrar como administrador
+            </Link>
+          )
+        )}
+      </div>
     </header>
   );
 }

@@ -12,10 +12,8 @@ export async function cadastrarUsuario(data: RegisterFormData) {
       email: parsedData.email,
       senha: parsedData.senha,
     });
-    console.log(response);
     return response.data;
   } catch (error: any) {
-    console.log(error);
     const message =
       error?.response?.data || error?.message || "Erro ao cadastrar usuário";
 

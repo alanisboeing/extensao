@@ -10,7 +10,7 @@ export const talentoSchema = z.object({
   competencia: z.string().min(3, "Competência obrigatória"),
   biografia: z.string().min(10, "Biografia obrigatória"),
   fotoUrl: z.string().url("URL inválida").optional(),
-  atuacaoId: z.string(),
+  atuacaoId: z.number(),
 });
 
 export type TalentoFormData = z.infer<typeof talentoSchema>;
