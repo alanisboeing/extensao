@@ -45,6 +45,8 @@ export function TalentoFormModal({
   }, []);
 
   useEffect(() => {
+    if (!open) return;
+
     if (initialData)
       reset({ ...initialData, atuacaoId: initialData.atuacoes.id });
     else
@@ -60,7 +62,7 @@ export function TalentoFormModal({
         fotoUrl: "",
         atuacaoId: undefined,
       });
-  }, [initialData, reset]);
+  }, [initialData, open, reset]);
 
   if (!open) return null;
 

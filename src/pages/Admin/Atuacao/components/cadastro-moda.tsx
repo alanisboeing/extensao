@@ -29,9 +29,10 @@ export function AtuacaoFormModal({
   });
 
   useEffect(() => {
+    if (!open) return;
     if (initialData) reset(initialData);
     else reset({ nome: "" });
-  }, [initialData, reset]);
+  }, [initialData, open, reset]);
 
   if (!open) return null;
 
